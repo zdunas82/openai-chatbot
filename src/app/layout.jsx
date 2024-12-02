@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import  { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -13,16 +13,14 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Chat Bot. Powered by OpenAI API",
   description: "The power of OpenAI!",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
