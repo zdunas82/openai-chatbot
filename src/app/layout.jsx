@@ -1,4 +1,4 @@
-import  { Metadata } from "next";
+// import  { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -18,9 +18,7 @@ export const metadata = {
   description: "The power of OpenAI!",
 };
 
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body

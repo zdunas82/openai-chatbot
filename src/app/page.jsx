@@ -1,10 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChatBot() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState(""); // Input is a string
+  const [messages, setMessages] = useState([]); // Messages is an empty array initially
+
+  useEffect(() => {
+    // Add a greeting message
+    const initialMessage = {
+      role: "assistant",
+      content: "How can I assist you today?",
+    };
+    setMessages((prev) => [...prev, initialMessage]);
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -15,7 +24,7 @@ export default function ChatBot() {
     setInput("");
 
     try {
-      // Call the API
+      // Call the OpenAI API
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -26,7 +35,7 @@ export default function ChatBot() {
 
       const data = await response.json();
 
-      // Add the assistant's message to the chat
+      // Add the assistant's response to the chat
       const botMessage = { role: "assistant", content: data.message };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
@@ -40,51 +49,49 @@ export default function ChatBot() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h1 style={{ textAlign: "center" }}>
-        Chat Bot v1.0 powered by OpenAI API.
+    <div className="max-w-2xl mx-auto p-6 bg-gradient-to-r from-pink-100 to-purple-300 text-white rounded-xl shadow-lg border border-blue-700">
+      <h1 className="text-xl text-lg font-bold text-center text-sky-700">
+        ChatBot v1.0
       </h1>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          height: "400px",
-          overflowY: "scroll",
-          marginBottom: "10px",
-          backgroundColor: "#f9f9f9",
-        }}
-      >
+      <p className="text-center font-semibold text-gray-800 tracking-wide">
+        Hello! I'm a ChatBot. I'm powered by OpenAI API. You can ask me
+        anything. Start typing below and see what I can do!
+      </p>
+
+      <div className="border border-gray-200 bg-gray-100 rounded-md p-3 h-72 overflow-y-scroll mb-3">
         {messages.map((msg, index) => (
           <p
             key={index}
-            style={{
-              color: msg.role === "user" ? "blue" : "green", // User text in blue, bot text in green
-              margin: "5px 0", // Add spacing between messages
-            }}
+            className={`text-sm ${
+              msg.role === "user"
+                ? "text-blue-500 font-semibold"
+                : "text-gray-600"
+            } mb-2`}
           >
             <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
             {msg.content}
           </p>
         ))}
       </div>
-      <div style={{ display: "flex", gap: "10px" }}>
+
+      <div className="flex gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              sendMessage();
+            }
+          }}
           placeholder="Type your message..."
-          style={{ flex: 1, padding: "10px", fontSize: "16px", color: "black" }}
+          className="flex-1 px-3 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-300 text-cyan-800"
         />
+
         <button
           onClick={sendMessage}
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            backgroundColor: "#0070f3",
-            color: "black",
-            border: "solid 1px",
-            cursor: "pointer",
-          }}
+          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg border border-black shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
         >
           Send
         </button>
