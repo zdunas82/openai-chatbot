@@ -49,7 +49,8 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-gradient-to-r from-pink-100 to-purple-300 text-white rounded-xl shadow-lg border border-blue-700">
+    <div className="gradient-background flex justify-center flex-col h-[690px] p-5 sm:p-0 sm:h-[780px] md:h-[860px]" >
+      <div className="max-w-2xl mx-auto p-6 bg-gradient-to-r from-pink-100 to-purple-300 text-white rounded-xl shadow-lg border border-blue-700">
       <h1 className="text-xl text-lg font-bold text-center text-sky-700">
         ChatBot v1.0
       </h1>
@@ -97,5 +98,7 @@ export default function ChatBot() {
         </button>
       </div>
     </div>
+    </div>
+    
   );
 }
